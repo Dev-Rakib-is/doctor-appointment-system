@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import { useAuth } from "../contex/AuthContex";
 import { motion } from "motion/react";
@@ -14,22 +14,24 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const res = await api.post("/auth/login", { email, password, role });
-      const { token, user } = res.data;
+      const { token, user } = res.data.data;
+      console.log("Login Response:", res.data.data);
+
 
       login(
-  {
-    name: user.name,       
-    email: user.email,    
-    role: user.role || role,
-  },
-  token
-);
+        {
+          name: user.name,
+          email: user.email,
+          role: user.role || role,
+        },
+        token
+      );
 
       if (role === "PATIENT") navigate("/patient/dashboard");
       else if (role === "DOCTOR") navigate("/doctor/dashboard");
       else if (role === "ADMIN") navigate("/admin/dashboard");
     } catch (err) {
-      console.error(err.response?.data || err.message);
+      console.error(err.response?.data.data || err.message);
       alert(err.response?.data?.message || "Login failed!");
     }
   };
@@ -41,20 +43,20 @@ export default function Login() {
       <input
         type="email"
         placeholder="Email"
-        className="border p-2 mb-2 rounded-md"
+        className="border p-2 mb-2 rounded-md outline-0"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
         type="password"
         placeholder="Password"
-        className="border p-2 mb-2 rounded-md"
+        className="border p-2 mb-2 rounded-md outline-0"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
 
       <select
-        className="border p-2 mb-3 rounded-md"
+        className="border p-2 mb-3 rounded-md outline-0"
         value={role}
         onChange={(e) => setRole(e.target.value)}
       >
@@ -66,9 +68,16 @@ export default function Login() {
       <motion.button
         whileTap={{ scale: 0.95 }}
         onClick={handleLogin}
-        className="bg-blue-600 text-white py-2 rounded-md cursor-pointer">
+        className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md cursor-pointer"
+      >
         Login
       </motion.button>
+      <p className="text-sm text-center mt-3">
+        Don’t have an account?{" "}
+        <Link to="/register" className="text-blue-600 hover:underline">
+          Register here
+        </Link>
+      </p>
     </div>
   );
 }
