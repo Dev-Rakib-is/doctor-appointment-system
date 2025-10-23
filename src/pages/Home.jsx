@@ -1,4 +1,3 @@
-// Home.jsx
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import api from "../api/api";

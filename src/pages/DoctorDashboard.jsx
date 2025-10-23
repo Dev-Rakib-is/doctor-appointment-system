@@ -8,7 +8,7 @@ export default function DoctorDashboard() {
   const { user, logout } = useAuth();
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("today"); // today/upcoming/all
+  const [filter, setFilter] = useState("today"); 
 
   // Fetch appointments
   useEffect(() => {
@@ -26,11 +26,10 @@ export default function DoctorDashboard() {
     fetchAppointments();
   }, [filter]);
 
-  // Handle appointment actions
+  // appointment 
   const handleAction = async (id, action) => {
     try {
       await api.patch(`/appointments/${id}`, { status: action });
-      // Update UI locally
       setAppointments((prev) =>
         prev.map((appt) =>
           appt._id === id ? { ...appt, status: action } : appt

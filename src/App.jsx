@@ -1,4 +1,3 @@
-// App.jsx
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contex/AuthContex";
 import ProtectedRoute from "./component/ProtectedRoute";

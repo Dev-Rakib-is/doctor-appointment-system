@@ -68,7 +68,7 @@ export default function PatientDashboard() {
     }
   };
 
-  // Prepare chart data (appointments by month)
+  // appointments by month
   const chartData = Array.from({ length: 6 }).map((_, i) => {
     const month = new Date();
     month.setMonth(month.getMonth() - (5 - i));
