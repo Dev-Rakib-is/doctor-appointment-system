@@ -41,10 +41,10 @@ const Sidebar = () => {
 
   return (
     <aside className="w-64 bg-white h-screen shadow-md flex flex-col">
-      <div className="border-b border-gray-300 p-4 text-center">
-        <h2 className="text-2xl font-bold text-blue-600">Doctor</h2>
+      <Link to="/" className="border-b border-gray-300 p-4 text-center">
+        <h2 className="text-2xl font-bold text-pink-950">Doctor</h2>
         <span className="text-gray-600">Appointment</span>
-      </div>
+      </Link>
 
       <nav className="flex-1 p-4 space-y-2">
         <Link

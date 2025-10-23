@@ -1,5 +1,6 @@
+// Home.jsx
 import { useEffect, useState, useCallback } from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import api from "../api/api";
 import { useNavigate } from "react-router-dom";
 import debounce from "lodash.debounce";
@@ -11,9 +12,9 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
-  const user =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
+  // Fetch initial data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,6 +33,7 @@ const Home = () => {
     fetchData();
   }, []);
 
+  // Search doctors
   const fetchDoctors = async (query) => {
     setLoading(true);
     try {
@@ -54,14 +56,14 @@ const Home = () => {
     debouncedFetchDoctors(e.target.value);
   };
 
-  // ✅ Book Appointment Click
+  // Book appointment button
   const handleBookClick = (doctorId) => {
-    if (!user) {
-      navigate("/login"); // যদি login না থাকে, login page এ redirect
+    if (!token) {
+      navigate("/login");
     } else {
       navigate(
         doctorId ? `/book-appointment/${doctorId}` : "/book-appointment"
-      ); // doctor specific অথবা general
+      );
     }
   };
 
@@ -106,9 +108,9 @@ const Home = () => {
           <p className="text-center text-gray-500">Loading...</p>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {specializations.map((item) => (
+            {specializations.map((item, index) => (
               <div
-                key={item}
+                key={index}
                 className="bg-white border border-gray-200 shadow-md p-6 rounded-xl text-center hover:shadow-lg transition"
               >
                 <p className="font-semibold text-black text-lg">{item}</p>
@@ -133,18 +135,12 @@ const Home = () => {
                 className="bg-white shadow-md p-6 rounded-2xl text-center hover:shadow-xl transition"
               >
                 <img
-                  src={
-                    doctor.photo_url || "https://i.ibb.co/0j90S3YT/7474061.png"
-                  }
+                  src={doctor.photo_url || "https://i.ibb.co/0j90S3YT/7474061.png"}
                   alt={doctor.name}
                   className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
                 />
-                <h3 className="font-semibold text-lg text-gray-800">
-                  {doctor.name}
-                </h3>
-                <p className="text-gray-600 text-sm mb-3">
-                  {doctor.specialization}
-                </p>
+                <h3 className="font-semibold text-lg text-gray-800">{doctor.name}</h3>
+                <p className="text-gray-600 text-sm mb-3">{doctor.specialization}</p>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   className="bg-blue-600 text-white px-4 py-1 rounded-md text-sm cursor-pointer hover:bg-blue-700 transition"

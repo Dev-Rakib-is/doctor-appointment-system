@@ -59,7 +59,7 @@ export default function PatientDashboard() {
         rating,
         feedback,
       });
-      alert("Thanks for your feedback! 💬");
+      alert("Thanks for your feedback!");
       setRating(0);
       setFeedback("");
       setSelectedDoctor(null);
