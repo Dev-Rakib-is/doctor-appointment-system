@@ -9,10 +9,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("PATIENT");
   const { login } = useAuth();
+  const [loading,setLoading]= useState(false)
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
+      setLoading(true)
       const res = await api.post("/auth/login", { email, password, role });
       const { token, user } = res.data.data;
       console.log("Login Response:", res.data.data);
@@ -33,7 +35,9 @@ export default function Login() {
     } catch (err) {
       console.error(err.response?.data.data || err.message);
       alert(err.response?.data?.message || "Login failed!");
-    }
+    }finally{
+      setLoading(false)
+  }
   };
 
   return (
@@ -68,9 +72,9 @@ export default function Login() {
       <motion.button
         whileTap={{ scale: 0.95 }}
         onClick={handleLogin}
-        className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md cursor-pointer"
+        className={` py-2 rounded-md cursor-pointer ${loading ? "bg-blue-400 text-white":"bg-blue-500 hover:bg-blue-600 text-white"}`}
       >
-        Login
+        {loading? "Logging in...":"Login"}
       </motion.button>
       <p className="text-sm text-center mt-3">
         Don’t have an account?{" "}

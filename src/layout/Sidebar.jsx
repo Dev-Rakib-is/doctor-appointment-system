@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../contex/AuthContex";
 
 const Sidebar = () => {
@@ -6,9 +6,9 @@ const Sidebar = () => {
 
   if (!user) {
     return (
-      <aside className="w-64 bg-white h-screen shadow-md flex flex-col">
-        <Link to="/" className="border-b border-black/40 flex justify-center flex-col p-4">
-          <h2 className="text-2xl font-bold text-pink-950">Doctor</h2>
+      <aside className="w-64 bg-white dark:bg-black/80 dark:text-white h-screen shadow-md flex flex-col">
+        <Link to="/" className="border-b border-black/40 dark:border-white/60 flex justify-center flex-col p-4">
+          <h2 className="text-2xl font-bold text-pink-950 dark:text-pink-600">Doctor</h2>
           <span className="font-light">Appointment</span>
         </Link>
         <nav className="flex-1 p-4 space-y-3">
@@ -28,6 +28,10 @@ const Sidebar = () => {
             Registration
           </Link>
         </nav>
+        <div className="text-center mb-2 font-light">
+          <p>Emergency Contact:</p>
+          <p>+8801796478185</p>
+        </div>
       </aside>
     );
   }
@@ -40,60 +44,60 @@ const Sidebar = () => {
       : "/patient/dashboard";
 
   return (
-    <aside className="w-64 bg-white h-screen shadow-md flex flex-col">
+    <aside className="w-64 bg-white dark:bg-black/90 text-black dark:text-white h-screen shadow-md flex flex-col">
       <Link to="/" className="border-b border-gray-300 p-4 text-center">
-        <h2 className="text-2xl font-bold text-pink-950">Doctor</h2>
-        <span className="text-gray-600">Appointment</span>
+        <h2 className="text-2xl font-bold text-pink-950 dark:text-pink-600">Doctor</h2>
+        <span className="text-gray-600 dark:text-white/80">Appointment</span>
       </Link>
 
       <nav className="flex-1 p-4 space-y-2">
-        <Link
+        <NavLink
           to="/"
-          className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+          className={({isActive})=>isActive?"bg-green-600 text-white block rounded px-4 py-2":"block px-4 py-2 rounded hover:bg-gray-200 transition"}
         >
           Home
-        </Link>
+        </NavLink>
 
-        <Link
+        <NavLink
           to={dashboardRoute}
-          className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+          className={({isActive})=>isActive?"bg-green-600 text-white block rounded px-4 py-2":"block px-4 py-2 rounded hover:bg-gray-200 transition"}
         >
           Dashboard
-        </Link>
+        </NavLink>
 
         {user.role === "DOCTOR" && (
-          <Link
-            to="/doctor/chat"
-            className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+          <NavLink
+            to="/mypatient"
+            className={({isActive})=>isActive?"bg-green-600 text-white block rounded px-4 py-2":"block px-4 py-2 rounded hover:bg-gray-200 transition"}
           >
             My Patients
-          </Link>
+          </NavLink>
         )}
 
         {user.role === "PATIENT" && (
-          <Link
+          <NavLink
             to="/patient/appointments"
-            className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+            className={({isActive})=>isActive?"bg-green-600 text-white text-white px-4 py-2 block rounded":"block px-4 py-2 rounded hover:bg-gray-200 transition"  }
           >
             My Appointments
-          </Link>
+          </NavLink>
         )}
 
         {user.role === "ADMIN" && (
-          <Link
+          <NavLink
             to="/admin/manage-users"
-            className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+            className={({isActive})=>isActive?"bg-green-600 text-white rounded px-4 py-2":"block px-4 py-2 rounded hover:bg-gray-200 transition"}
           >
             Manage Users
-          </Link>
+          </NavLink>
         )}
 
-        <Link
+        <NavLink
           to="/settings"
-          className="block px-4 py-2 rounded hover:bg-gray-200 transition"
+          className={({isActive})=>isActive?"bg-green-600 text-white block rounded px-4 py-2":"block px-4 py-2 rounded hover:bg-gray-200 transition"}
         >
           Settings
-        </Link>
+        </NavLink>
       </nav>
 
       <div className="p-4 border-t border-gray-200">

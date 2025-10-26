@@ -8,17 +8,30 @@ export default function DoctorDashboard() {
   const { user, logout } = useAuth();
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("today"); 
+  const [filter, setFilter] = useState("today");
 
-  // Fetch appointments
+  // ✅ fetch appointments
   useEffect(() => {
     const fetchAppointments = async () => {
       setLoading(true);
       try {
-        const res = await api.get(`/doctor/appointments?filter=${filter}`);
-        setAppointments(res.data?.data || []);
+        // 🔹 format today as yyyy-mm-dd
+        const today = new Date();
+        const formattedDate = today.toISOString().split("T")[0];
+
+        let url = `/appointments/doctor?page=1`;
+
+        if (filter === "today") {
+          url += `&date=${formattedDate}`;
+        } else if (filter === "upcoming") {
+          url += `&status=SCHEDULED`;
+        }
+
+        const res = await api.get(url);
+        const data = res.data?.data || [];
+        setAppointments(data);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching appointments:", err);
       } finally {
         setLoading(false);
       }
@@ -26,17 +39,17 @@ export default function DoctorDashboard() {
     fetchAppointments();
   }, [filter]);
 
-  // appointment 
-  const handleAction = async (id, action) => {
+  // ✅ update appointment status
+  const handleAction = async (appointment_id, status) => {
     try {
-      await api.patch(`/appointments/${id}`, { status: action });
+      await api.patch(`/appointments/update-status`, { appointment_id, status });
       setAppointments((prev) =>
         prev.map((appt) =>
-          appt._id === id ? { ...appt, status: action } : appt
+          appt._id === appointment_id ? { ...appt, status } : appt
         )
       );
     } catch (err) {
-      console.error(err);
+      console.error("Error updating status:", err);
     }
   };
 
@@ -58,14 +71,14 @@ export default function DoctorDashboard() {
       </header>
 
       <main className="max-w-6xl mx-auto p-10">
-        {/* Doctor Profile */}
+        {/* Doctor Info */}
         <div className="bg-white shadow-lg rounded-xl p-8 text-center mb-10">
           <img
             src={user?.profile?.photo_url || "/default-doctor.png"}
             alt="Doctor"
             className="w-28 h-28 mx-auto rounded-full mb-4 object-cover"
           />
-          <h2 className="text-xl font-semibold">{user?.profile?.name}</h2>
+          <h2 className="text-xl font-semibold">{user?.name}</h2>
           <p className="text-gray-600">{user?.profile?.specialization}</p>
           <p className="text-gray-500 mt-2">{user?.email}</p>
           <button
@@ -76,7 +89,7 @@ export default function DoctorDashboard() {
           </button>
         </div>
 
-        {/* Quick Stats */}
+        {/* Stats */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -84,9 +97,10 @@ export default function DoctorDashboard() {
           >
             <h3 className="text-gray-500 font-medium">Appointments Today</h3>
             <p className="text-2xl font-bold mt-2">
-              {appointments.filter((a) => a.status === "scheduled").length}
+              {appointments.filter((a) => a.status === "SCHEDULED").length}
             </p>
           </motion.div>
+
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="bg-white shadow-md rounded-xl p-6 text-center transition"
@@ -94,18 +108,19 @@ export default function DoctorDashboard() {
             <h3 className="text-gray-500 font-medium">Total Patients</h3>
             <p className="text-2xl font-bold mt-2">{appointments.length}</p>
           </motion.div>
+
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="bg-white shadow-md rounded-xl p-6 text-center transition"
           >
             <h3 className="text-gray-500 font-medium">Pending Tasks</h3>
             <p className="text-2xl font-bold mt-2">
-              {appointments.filter((a) => a.status === "pending").length}
+              {appointments.filter((a) => a.status === "PENDING").length}
             </p>
           </motion.div>
         </section>
 
-        {/* Filter Appointments */}
+        {/* Filter Buttons */}
         <section className="mb-6 flex gap-4 justify-center">
           {["today", "upcoming", "all"].map((f) => (
             <button
@@ -122,7 +137,7 @@ export default function DoctorDashboard() {
           ))}
         </section>
 
-        {/* Appointments Table */}
+        {/* Table */}
         {loading ? (
           <p className="text-center text-gray-500">Loading appointments...</p>
         ) : appointments.length === 0 ? (
@@ -133,7 +148,7 @@ export default function DoctorDashboard() {
               <thead>
                 <tr className="bg-gray-100">
                   <th className="text-left p-4 font-medium">Patient</th>
-                  <th className="text-left p-4 font-medium">Date & Time</th>
+                  <th className="text-left p-4 font-medium">Date</th>
                   <th className="text-left p-4 font-medium">Status</th>
                   <th className="text-left p-4 font-medium">Actions</th>
                 </tr>
@@ -141,21 +156,27 @@ export default function DoctorDashboard() {
               <tbody>
                 {appointments.map((appt) => (
                   <tr key={appt._id} className="border-b last:border-b-0">
-                    <td className="p-4">{appt.patient.name}</td>
-                    <td className="p-4">{new Date(appt.date).toLocaleString()}</td>
+                    <td className="p-4">{appt?.patient?.name}</td>
+                    <td className="p-4">
+                      {new Date(appt.date).toLocaleString()}
+                    </td>
                     <td className="p-4 capitalize">{appt.status}</td>
                     <td className="p-4 flex gap-2">
-                      {appt.status !== "completed" && (
+                      {appt.status !== "COMPLETE" && (
                         <button
-                          onClick={() => handleAction(appt._id, "completed")}
+                          onClick={() =>
+                            handleAction(appt._id, "COMPLETE")
+                          }
                           className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
                         >
                           Complete
                         </button>
                       )}
-                      {appt.status !== "cancelled" && (
+                      {appt.status !== "CANCELLED" && (
                         <button
-                          onClick={() => handleAction(appt._id, "cancelled")}
+                          onClick={() =>
+                            handleAction(appt._id, "CANCELLED")
+                          }
                           className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
                         >
                           Cancel

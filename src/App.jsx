@@ -13,6 +13,7 @@ import BookAppointment from "./pages/BookAppointment";
 import AdminSettings from "./pages/AdminSettings";
 import DoctorSettings from "./pages/DoctorSettings";
 import PatientSettings from "./pages/PatientSettings";
+import MyPatient from "./pages/MyPatient";
 
 export default function App() {
   const { user } = useAuth();
@@ -20,15 +21,18 @@ export default function App() {
     <Routes>
       {/* Public Routes */}
       {/* ---------------------------------- */}
-      {/* Patient setting  */}
+      {/* setting  */}
       <Route
         path="/settings"
         element={
           <RootLayout>
-            <PatientSettings />
+            {user?.role === "PATIENT" && <PatientSettings />}
+            {user?.role === "DOCTOR" && <DoctorSettings />}
+            {user?.role === "ADMIN" && <AdminSettings />}
           </RootLayout>
         }
       />
+      {/* Home  */}
       <Route
         path="/"
         element={
@@ -37,6 +41,7 @@ export default function App() {
           </RootLayout>
         }
       />
+      {/* Login  */}
       <Route
         path="/login"
         element={
@@ -65,6 +70,14 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/mypatient" 
+      element={
+      <ProtectedRoute role="DOCTOR">
+        <RootLayout>
+          <MyPatient/>
+        </RootLayout>
+      </ProtectedRoute>
+      } />
       <Route
         path="/patient/dashboard"
         element={

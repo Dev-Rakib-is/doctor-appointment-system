@@ -27,7 +27,9 @@ export default function PatientDashboard() {
     const fetchAppointments = async () => {
       setLoading(true);
       try {
-        const res = await api.get(`/appointments?filter=${filter}`);
+        const res = await api.get(
+          `/appointments/patient?status=${filter}&page=1`
+        );
         setAppointments(res.data?.data || []);
       } catch (err) {
         console.error("Error fetching appointments:", err);
@@ -41,7 +43,10 @@ export default function PatientDashboard() {
   // Cancel Appointment
   const handleCancel = async (id) => {
     try {
-      await api.patch(`/appointments/${id}`, { status: "cancelled" });
+      await api.patch("/appointments/update-status", {
+        status: "CANCELLED",
+        appointment_id: id,
+      });
       setAppointments((prev) =>
         prev.map((a) => (a._id === id ? { ...a, status: "cancelled" } : a))
       );
@@ -91,10 +96,10 @@ export default function PatientDashboard() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gray-100"
+      className="min-h-screen bg-gray-50 dark:bg-black dark:text-white"
     >
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-500 to-violet-500 text-white py-6 shadow-md">
+      <header className="bg-gray-300 dark:bg-gray-700 text-green-600 dark:text-white py-6 shadow-md">
         <h1 className="text-3xl font-bold text-center">Patient Dashboard</h1>
       </header>
 
@@ -183,7 +188,7 @@ export default function PatientDashboard() {
           ))}
         </div>
 
-        {/* Appointments */}
+        {/* Appointments Table */}
         {loading ? (
           <p className="text-center text-gray-500">Loading appointments...</p>
         ) : appointments.length === 0 ? (

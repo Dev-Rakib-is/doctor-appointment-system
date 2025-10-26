@@ -13,7 +13,7 @@ const Home = () => {
 
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  // Fetch initial data
+  // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {

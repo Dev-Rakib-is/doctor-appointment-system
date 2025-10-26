@@ -60,7 +60,6 @@ const BookAppointment = () => {
     setSuccess("");
 
     try {
-      //  date + time
       const dateTimeISO = new Date(`${date}T${time}:00`).toISOString();
 
       console.log("Booking payload:", { doctorId: finalDoctorId, date: dateTimeISO });
