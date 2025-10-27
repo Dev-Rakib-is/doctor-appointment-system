@@ -28,7 +28,7 @@ const Navbar = () => {
         {user && (
           <div className="text-center dark:te">
             <p>Emergency Contact :</p>
-            <p>+8801796478185</p>
+            <a href="tel:+8801796478185">+8801796478185</a>  
           </div>
         )}
         <Darkmode />

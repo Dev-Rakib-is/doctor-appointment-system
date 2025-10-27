@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contex/AuthContex";
 import api from "../api/api";
+import { motion } from "motion/react";
 
 const statusMap = {
   upcoming: "PENDING",
@@ -95,14 +96,14 @@ const MyAppointment = () => {
 
       {/* Appointments Table */}
       {loading ? (
-        <p className="text-gray-500">Loading appointments...</p>
+        <p className="text-gray-500 dark:text-white">Loading appointments...</p>
       ) : appointments.length === 0 ? (
-        <p className="text-gray-500">No appointments found.</p>
+        <p className="text-gray-500 dark:text-white">No appointments found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow-md rounded-xl">
+          <table className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-xl">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-gray-100 dark:bg-gray-700">
                 <th className="text-left p-4 font-medium">Doctor</th>
                 <th className="text-left p-4 font-medium">Date</th>
                 <th className="text-left p-4 font-medium">Status</th>
@@ -115,7 +116,9 @@ const MyAppointment = () => {
                   <td className="p-4 font-medium">
                     {appt.doctor?.name || "Unknown"}
                   </td>
-                  <td className="p-4">{new Date(appt.date).toLocaleString()}</td>
+                  <td className="p-4">
+                    {new Date(appt.date).toLocaleString()}
+                  </td>
                   <td
                     className={`p-4 capitalize font-semibold ${
                       appt.status === "COMPLETED"
@@ -129,12 +132,13 @@ const MyAppointment = () => {
                   </td>
                   <td className="p-4 flex gap-2">
                     {appt.status === "PENDING" && (
-                      <button
+                      <motion.button
+                        whileTap={{scale:0.95}}
                         onClick={() => handleCancel(appt._id)}
-                        className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+                        className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition cursor-pointer"
                       >
                         Cancel
-                      </button>
+                      </motion.button>
                     )}
                     {appt.status === "COMPLETED" && (
                       <button

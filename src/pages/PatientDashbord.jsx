@@ -105,50 +105,58 @@ export default function PatientDashboard() {
 
       <main className="max-w-6xl mx-auto p-10">
         {/* Profile */}
-        <div className="bg-white shadow-lg rounded-xl p-8 text-center mb-10">
-          <img
-            src={user?.profile?.photo_url || "/default-patient.png"}
-            alt="Patient"
-            className="w-28 h-28 mx-auto rounded-full mb-4 object-cover"
-          />
+        <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-8 text-center mb-10">
+          <div className="flex items-center justify-center border w-28 h-28 mx-auto rounded-full overflow-hidden bg-gray-100">
+            {user?.profile?.photo_url ? (
+              <img
+                src={user.profile.photo_url}
+                alt="Patient"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-gray-500 text-sm">Patient</span>
+            )}
+          </div>
+
           <h2 className="text-xl font-semibold">{user?.profile?.name}</h2>
           <p className="text-gray-600">{user?.email}</p>
           <p className="text-gray-500 mt-1">
             Age: {user?.profile?.age || "N/A"}
           </p>
-          <button
+          <motion.button
+          whileTap={{scale:0.95}}
             onClick={logout}
-            className="mt-6 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md transition"
+            className="mt-6 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md transition cursor-pointer"
           >
             Logout
-          </button>
+          </motion.button>
         </div>
 
         {/* Stats */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-md rounded-xl p-6 text-center transition"
+            className="bg-white dark:bg-gray-800 shadow-md rounded-xl p-6 text-center transition"
           >
-            <h3 className="text-gray-500 font-medium">Upcoming</h3>
-            <p className="text-2xl font-bold mt-2">
+            <h3 className="text-gray-500 dark:text-white font-medium">Upcoming</h3>
+            <p className="text-2xl dark:text-white font-bold mt-2">
               {appointments.filter((a) => a.status === "scheduled").length}
             </p>
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-md rounded-xl p-6 text-center transition"
+            className="bg-white dark:bg-gray-800 shadow-md rounded-xl p-6 text-center transition"
           >
-            <h3 className="text-gray-500 font-medium">Completed</h3>
-            <p className="text-2xl font-bold mt-2">
+            <h3 className="text-gray-500 dark:text-white font-medium">Completed</h3>
+            <p className="text-2xl dark:text-white font-bold mt-2">
               {appointments.filter((a) => a.status === "completed").length}
             </p>
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-md rounded-xl p-6 text-center transition"
+            className="bg-white dark:bg-gray-800 shadow-md rounded-xl p-6 text-center transition"
           >
-            <h3 className="text-gray-500 font-medium">Cancelled</h3>
+            <h3 className="text-gray-500 dark:text-white font-medium">Cancelled</h3>
             <p className="text-2xl font-bold mt-2">
               {appointments.filter((a) => a.status === "cancelled").length}
             </p>
@@ -156,8 +164,8 @@ export default function PatientDashboard() {
         </section>
 
         {/* Chart */}
-        <div className="bg-white rounded-xl p-8 mb-10 shadow-md">
-          <h3 className="text-xl font-semibold mb-4 text-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-8 mb-10 shadow-md">
+          <h3 className="text-xl font-semibold mb-4 text-gray-700 dark:text-white">
             Appointment History (Last 6 Months)
           </h3>
           <ResponsiveContainer width="100%" height={250}>

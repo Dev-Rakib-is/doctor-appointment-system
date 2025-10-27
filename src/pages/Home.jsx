@@ -19,7 +19,7 @@ const Home = () => {
       try {
         const [specRes, docRes] = await Promise.all([
           api.get("/specializations"),
-          api.get("/doctors?page=1&limit=8"),
+          api.get("/doctors?page=1&limit=12"),
         ]);
         setSpecializations(specRes.data?.data || []);
         setDoctors(docRes.data?.data || []);
@@ -67,9 +67,9 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Hero Section */}
-      <section className="text-center py-20 bg-gradient-to-r from-pink-300 to-violet-400 text-white">
+      <section className="text-center py-20 bg-violet-400 dark:bg-gray-800 text-white">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
           Your Health, Our Priority
         </h1>
@@ -100,7 +100,7 @@ const Home = () => {
 
       {/* Popular Specializations */}
       <section className="my-16 px-6">
-        <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
+        <h2 className="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-white">
           Popular Specializations
         </h2>
         {loading ? (
@@ -110,9 +110,9 @@ const Home = () => {
             {specializations.map((item, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-200 shadow-md p-6 rounded-xl text-center hover:shadow-lg transition"
+                className="bg-white dark:bg-gray-800  border border-gray-200 shadow-md p-6 rounded-xl text-center hover:shadow-lg transition"
               >
-                <p className="font-semibold text-black text-lg">{item}</p>
+                <p className="font-semibold text-black dark:text-white text-lg">{item}</p>
               </div>
             ))}
           </div>
@@ -121,7 +121,7 @@ const Home = () => {
 
       {/* Featured Doctors */}
       <section className="my-16 px-6">
-        <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
+        <h2 className="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-white">
           Featured Doctors
         </h2>
         {loading ? (
@@ -131,15 +131,15 @@ const Home = () => {
             {doctors.map((doctor) => (
               <div
                 key={doctor._id}
-                className="bg-white shadow-md p-6 rounded-2xl text-center hover:shadow-xl transition"
+                className="bg-white dark:bg-gray-800 shadow-md p-6 rounded-2xl text-center hover:shadow-xl transition"
               >
                 <img
                   src={doctor.photo_url || "https://i.ibb.co/0j90S3YT/7474061.png"}
                   alt={doctor.name}
                   className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
                 />
-                <h3 className="font-semibold text-lg text-gray-800">{doctor.name}</h3>
-                <p className="text-gray-600 text-sm mb-3">{doctor.specialization}</p>
+                <h3 className="font-semibold text-lg text-gray-800 dark:text-white">{doctor.name}</h3>
+                <p className="text-gray-600 dark:text-white text-sm mb-3">{doctor.specialization}</p>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   className="bg-blue-600 text-white px-4 py-1 rounded-md text-sm cursor-pointer hover:bg-blue-700 transition"

@@ -30,7 +30,7 @@ const Sidebar = () => {
         </nav>
         <div className="text-center mb-2 font-light">
           <p>Emergency Contact:</p>
-          <p>+8801796478185</p>
+          <a href="tel:+8801796478185">+8801796478185</a>
         </div>
       </aside>
     );
@@ -77,7 +77,7 @@ const Sidebar = () => {
         {user.role === "PATIENT" && (
           <NavLink
             to="/patient/appointments"
-            className={({isActive})=>isActive?"bg-green-600 text-white text-white px-4 py-2 block rounded":"block px-4 py-2 rounded hover:bg-gray-200 transition"  }
+            className={({isActive})=>isActive?"bg-green-600 text-white px-4 py-2 block rounded":"block px-4 py-2 rounded hover:bg-gray-200 transition"}
           >
             My Appointments
           </NavLink>

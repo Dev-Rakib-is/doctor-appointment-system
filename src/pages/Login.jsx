@@ -41,7 +41,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col bg-white shadow-lg p-6 rounded-xl w-80 mx-auto mt-20">
+    <div className="flex flex-col bg-white dark:bg-gray-800 shadow-lg p-6 rounded-xl w-80 mx-auto mt-20">
       <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
 
       <input
@@ -60,7 +60,7 @@ export default function Login() {
       />
 
       <select
-        className="border p-2 mb-3 rounded-md outline-0"
+        className="border p-2 mb-3 rounded-md outline-0 bg-white dark:bg-gray-800"
         value={role}
         onChange={(e) => setRole(e.target.value)}
       >

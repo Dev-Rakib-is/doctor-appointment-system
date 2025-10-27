@@ -42,7 +42,10 @@ export default function DoctorDashboard() {
   // ✅ update appointment status
   const handleAction = async (appointment_id, status) => {
     try {
-      await api.patch(`/appointments/update-status`, { appointment_id, status });
+      await api.patch(`/appointments/update-status`, {
+        appointment_id,
+        status,
+      });
       setAppointments((prev) =>
         prev.map((appt) =>
           appt._id === appointment_id ? { ...appt, status } : appt
@@ -66,24 +69,30 @@ export default function DoctorDashboard() {
       className="min-h-screen bg-gray-100"
     >
       {/* Header */}
-      <header className="bg-blue-600 text-white py-6 shadow-md">
+      <header className="bg-blue-600 dark:bg-gray-800 text-white py-6 shadow-md">
         <h1 className="text-3xl font-bold text-center">Doctor Dashboard</h1>
       </header>
 
-      <main className="max-w-6xl mx-auto p-10">
+      <main className="max-w-6xl mx-auto p-10 bg-white dark:bg-black">
         {/* Doctor Info */}
-        <div className="bg-white shadow-lg rounded-xl p-8 text-center mb-10">
-          <img
-            src={user?.profile?.photo_url || "/default-doctor.png"}
-            alt="Doctor"
-            className="w-28 h-28 mx-auto rounded-full mb-4 object-cover"
-          />
+        <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-8 text-center mb-10">
+          <div className="flex items-center justify-center border w-28 h-28 mx-auto rounded-full overflow-hidden bg-gray-100">
+            {user?.profile?.photo_url ? (
+              <img
+                src={user.profile.photo_url}
+                alt="Doctor"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-gray-500 text-sm">Doctor</span>
+            )}
+          </div>
           <h2 className="text-xl font-semibold">{user?.name}</h2>
           <p className="text-gray-600">{user?.profile?.specialization}</p>
           <p className="text-gray-500 mt-2">{user?.email}</p>
           <button
             onClick={logout}
-            className="mt-6 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md transition"
+            className="mt-6 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md transition cursor-pointer"
           >
             Logout
           </button>
@@ -93,9 +102,9 @@ export default function DoctorDashboard() {
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-md rounded-xl p-6 text-center transition"
+            className="bg-white shadow-md rounded-xl p-6 text-center transition dark:bg-gray-800"
           >
-            <h3 className="text-gray-500 font-medium">Appointments Today</h3>
+            <h3 className="text-gray-500 font-medium dark:text-white">Appointments Today</h3>
             <p className="text-2xl font-bold mt-2">
               {appointments.filter((a) => a.status === "SCHEDULED").length}
             </p>
@@ -103,17 +112,17 @@ export default function DoctorDashboard() {
 
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-md rounded-xl p-6 text-center transition"
+            className="bg-white shadow-md rounded-xl p-6 text-center transition dark:bg-gray-800"
           >
-            <h3 className="text-gray-500 font-medium">Total Patients</h3>
+            <h3 className="text-gray-500 font-medium dark:text-white">Total Patients</h3>
             <p className="text-2xl font-bold mt-2">{appointments.length}</p>
           </motion.div>
 
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="bg-white shadow-md rounded-xl p-6 text-center transition"
+            className="bg-white shadow-md rounded-xl p-6 text-center transition dark:bg-gray-800"
           >
-            <h3 className="text-gray-500 font-medium">Pending Tasks</h3>
+            <h3 className="text-gray-500 font-medium dark:text-white">Pending Tasks</h3>
             <p className="text-2xl font-bold mt-2">
               {appointments.filter((a) => a.status === "PENDING").length}
             </p>
@@ -164,9 +173,7 @@ export default function DoctorDashboard() {
                     <td className="p-4 flex gap-2">
                       {appt.status !== "COMPLETE" && (
                         <button
-                          onClick={() =>
-                            handleAction(appt._id, "COMPLETE")
-                          }
+                          onClick={() => handleAction(appt._id, "COMPLETE")}
                           className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
                         >
                           Complete
@@ -174,9 +181,7 @@ export default function DoctorDashboard() {
                       )}
                       {appt.status !== "CANCELLED" && (
                         <button
-                          onClick={() =>
-                            handleAction(appt._id, "CANCELLED")
-                          }
+                          onClick={() => handleAction(appt._id, "CANCELLED")}
                           className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
                         >
                           Cancel

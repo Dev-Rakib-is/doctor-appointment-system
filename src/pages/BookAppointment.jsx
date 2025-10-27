@@ -86,9 +86,9 @@ const BookAppointment = () => {
   if (loading) return <p className="text-center mt-20">Loading...</p>;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
-        <h1 className="text-2xl font-bold mb-6 text-center">Book Appointment</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-black p-6">
+      <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-md p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center text-black dark:text-white">Book Appointment</h1>
 
         {!doctorId && (
           <div className="mb-4">
@@ -98,9 +98,9 @@ const BookAppointment = () => {
               onChange={(e) => setSelectedDoctorId(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-full"
             >
-              <option value="">-- Choose a doctor --</option>
+              <option value="" className="bg-white dark:bg-gray-800">-- Choose a doctor --</option>
               {allDoctors.map((d, index) => (
-                <option key={d._id || index} value={d._id}>
+                <option key={d._id || index} value={d._id} className="bg-white dark:bg-gray-800">
                   {d.name} - {d.specialization}
                 </option>
               ))}
@@ -138,11 +138,11 @@ const BookAppointment = () => {
 
           {/* Time */}
           <div>
-            <label className="block font-medium mb-1">Select Time</label>
+            <label className="block font-medium mb-1 ">Select Time</label>
             <select
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="border border-gray-300 rounded-md p-2 w-full"
+              className="border border-gray-300 rounded-md p-2 w-full bg-white dark:bg-gray-800"
             >
               <option value="09:00">09:00 AM</option>
               <option value="10:00">10:00 AM</option>
