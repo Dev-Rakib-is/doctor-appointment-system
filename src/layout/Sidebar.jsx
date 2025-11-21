@@ -28,7 +28,7 @@ const Sidebar = () => {
             Registration
           </Link>
         </nav>
-        <div className="text-center mb-2 font-light">
+        <div className=" mb-2 font-light mx-auto">
           <p>Emergency Contact:</p>
           <a href="tel:+8801796478185">+8801796478185</a>
         </div>

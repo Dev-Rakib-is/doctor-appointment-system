@@ -1,7 +1,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const Darkmode = ({ children }) => {
+const Darkmode = () => {
   const [dark, setDark] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -23,7 +23,7 @@ const Darkmode = ({ children }) => {
         onClick={() => setDark(!dark)}
       >
         {dark ? <Sun /> : <Moon />}
-        {children}
+        
       </button>
     </div>
   );

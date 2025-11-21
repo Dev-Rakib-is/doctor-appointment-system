@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(savedUser));
     }
     setLoading(false);
-  }, []);
+  }, []); 
 
   const login = (userData, token) => {
     setUser(userData);

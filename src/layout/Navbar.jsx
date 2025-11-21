@@ -23,10 +23,10 @@ const Navbar = () => {
         <p className="text-black/60 dark:text-white/80 text-sm font-light">
           {user?.role}
         </p>
-      </div>
+      </div> 
       <div className="flex items-center gap-8">
         {user && (
-          <div className="text-center dark:te">
+          <div className="text-center text-black dark:text-white">
             <p>Emergency Contact :</p>
             <a href="tel:+8801796478185">+8801796478185</a>  
           </div>

@@ -130,6 +130,13 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      {/* Settings  */}
+      <Route path="/settings" element={<SettingsLayout />}>
+  <Route path="profile" element={<ProfileSettings />} />
+  <Route path="account" element={<AccountSettings />} />
+  <Route path="preferences" element={<PreferencesSettings />} />
+  <Route path="security" element={<SecuritySettings />} />
+</Route>
     </Routes>
   );
 }

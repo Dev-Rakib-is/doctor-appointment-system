@@ -63,7 +63,7 @@ export default function Register() {
       return;
     }
 
-    //  Registration 
+    //  Registration
     setLoading(true);
     try {
       const endpoint =
@@ -148,7 +148,8 @@ export default function Register() {
             <select
               className="w-full border p-2 rounded-md"
               value={specialization}
-              onChange={(e) => setSpecialization(e.target.value)}>
+              onChange={(e) => setSpecialization(e.target.value)}
+            >
               <option value="">Select Specialization</option>
               <option value="Cardiologist">Cardiologist</option>
               <option value="Dentist">Dentist</option>

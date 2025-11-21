@@ -104,7 +104,9 @@ export default function DoctorDashboard() {
             whileHover={{ scale: 1.05 }}
             className="bg-white shadow-md rounded-xl p-6 text-center transition dark:bg-gray-800"
           >
-            <h3 className="text-gray-500 font-medium dark:text-white">Appointments Today</h3>
+            <h3 className="text-gray-500 font-medium dark:text-white">
+              Appointments Today
+            </h3>
             <p className="text-2xl font-bold mt-2">
               {appointments.filter((a) => a.status === "SCHEDULED").length}
             </p>
@@ -114,7 +116,9 @@ export default function DoctorDashboard() {
             whileHover={{ scale: 1.05 }}
             className="bg-white shadow-md rounded-xl p-6 text-center transition dark:bg-gray-800"
           >
-            <h3 className="text-gray-500 font-medium dark:text-white">Total Patients</h3>
+            <h3 className="text-gray-500 font-medium dark:text-white">
+              Total Patients
+            </h3>
             <p className="text-2xl font-bold mt-2">{appointments.length}</p>
           </motion.div>
 
@@ -122,7 +126,9 @@ export default function DoctorDashboard() {
             whileHover={{ scale: 1.05 }}
             className="bg-white shadow-md rounded-xl p-6 text-center transition dark:bg-gray-800"
           >
-            <h3 className="text-gray-500 font-medium dark:text-white">Pending Tasks</h3>
+            <h3 className="text-gray-500 font-medium dark:text-white">
+              Pending Tasks
+            </h3>
             <p className="text-2xl font-bold mt-2">
               {appointments.filter((a) => a.status === "PENDING").length}
             </p>

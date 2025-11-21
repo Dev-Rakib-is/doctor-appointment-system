@@ -11,7 +11,8 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   // Fetch data
   useEffect(() => {
@@ -112,7 +113,9 @@ const Home = () => {
                 key={index}
                 className="bg-white dark:bg-gray-800  border border-gray-200 shadow-md p-6 rounded-xl text-center hover:shadow-lg transition"
               >
-                <p className="font-semibold text-black dark:text-white text-lg">{item}</p>
+                <p className="font-semibold text-black dark:text-white text-lg">  
+                  {item}
+                </p>
               </div>
             ))}
           </div>
@@ -134,12 +137,18 @@ const Home = () => {
                 className="bg-white dark:bg-gray-800 shadow-md p-6 rounded-2xl text-center hover:shadow-xl transition"
               >
                 <img
-                  src={doctor.photo_url || "https://i.ibb.co/0j90S3YT/7474061.png"}
+                  src={
+                    doctor.photo_url || "https://i.ibb.co/0j90S3YT/7474061.png"
+                  }
                   alt={doctor.name}
                   className="w-24 h-24 mx-auto rounded-full mb-4 object-cover"
                 />
-                <h3 className="font-semibold text-lg text-gray-800 dark:text-white">{doctor.name}</h3>
-                <p className="text-gray-600 dark:text-white text-sm mb-3">{doctor.specialization}</p>
+                <h3 className="font-semibold text-lg text-gray-800 dark:text-white">
+                  {doctor.name}
+                </h3>
+                <p className="text-gray-600 dark:text-white text-sm mb-3">
+                  {doctor.specialization}
+                </p>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   className="bg-blue-600 text-white px-4 py-1 rounded-md text-sm cursor-pointer hover:bg-blue-700 transition"
